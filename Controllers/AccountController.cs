@@ -72,7 +72,7 @@ namespace API.Controllers
                     return Ok(new
                     {
                         StatusCode = 200,
-                        Message = "Data Not Found"
+                        Message = "Cant Regist data"
                     });
                 }
                 else
@@ -80,7 +80,7 @@ namespace API.Controllers
                     return Ok(new
                     {
                         StatusCode = 200,
-                        Message = "Data Found"
+                        Message = "Success To Register"
 
                     });
                 }
@@ -96,7 +96,7 @@ namespace API.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("ChangePassword")]
         public ActionResult ChangePassword(string email, string password, string confirm)
         {
@@ -108,7 +108,7 @@ namespace API.Controllers
                     return Ok(new
                     {
                         StatusCode = 200,
-                        Message = "Data Not Found"
+                        Message = "Failed To Change Password"
                     });
                 }
                 else
@@ -116,7 +116,7 @@ namespace API.Controllers
                     return Ok(new
                     {
                         StatusCode = 200,
-                        Message = "Data Found"
+                        Message = "Success To Change Password"
 
                     });
                 }
@@ -131,7 +131,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("ForgotPassword")]
         public ActionResult ForgotPassword(string email, string confirm)
         {
@@ -143,7 +143,7 @@ namespace API.Controllers
                     return Ok(new
                     {
                         StatusCode = 200,
-                        Message = "Data Not Found"
+                        Message = "Failed To Make New Password"
                     });
                 }
                 else
@@ -151,7 +151,7 @@ namespace API.Controllers
                     return Ok(new
                     {
                         StatusCode = 200,
-                        Message = "Data Found"
+                        Message = "Success To Make New Password"
 
                     });
                 }
