@@ -3,14 +3,21 @@ using API.Handlers;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API.Repository.Data
 {
     public class AccountRepository
     {
         private MyContext myContext;
+       // public IConfiguration configuration;
+
         public AccountRepository(MyContext myContext)
         {
+           // this.configuration = configuration;
             this.myContext = myContext;
         }
         public List<string> Login (string email, string password)
@@ -22,12 +29,24 @@ namespace API.Repository.Data
             //&& Hashing.ValidatePassword(password, data.Password) == true
             if (data != null && Hashing.ValidatePassword(password, data.Password) == true)
             {
+                //var claims = new[]
+                //{
+                //    new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                //    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                //    new Claim("",data.Id.ToString()),
+                //};
                 List<string> result = new List<string>();
+                //string[] result1 = new string[] { JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]};
+                //string[] result2 = new string[] { JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() };
+                //string[] result3 = new string[] { JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString() };
+                //result.Add(result1.ToString());
+                //result.Add(result2.ToString());
+                //result.Add(result3.ToString());
                 result.Add(data.Id.ToString());
                 result.Add(data.Employee.Name);
                 result.Add(data.Employee.Email);
                 result.Add(data.Role.Name);
-
                 return result;
             }
             return null;

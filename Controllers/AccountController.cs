@@ -5,6 +5,12 @@ using API.Repository.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 namespace API.Controllers
 {
@@ -13,11 +19,13 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         private AccountRepository accountRepository;
+        public IConfiguration configuration;
         //private UserRepository userRepository;
 
-        public AccountController(AccountRepository accountRepository)
+        public AccountController(AccountRepository accountRepository, IConfiguration configuration)
         {
             this.accountRepository = accountRepository;
+            this.configuration = configuration;
         }
 
         [HttpPost]
@@ -37,18 +45,38 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return Ok(new
+                    //int change = Convert.ToInt32(data[0]);
+                    var claims = new[]
                     {
-                        StatusCode = 200,
-                        Message = "Data Found",
-                        Data = new 
-                        {
-                            Id = Convert.ToInt32(data[0]),
-                            FullName = data[1],
-                            Email = data[2],
-                            Role = data[3]
-                        }
-                    });
+                        new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("Id", data[0]),
+                        new Claim("FullName", data[1]),
+                        new Claim("Email",data[2]),
+                        new Claim("Role", data[3])
+                    };
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                                      configuration["Jwt:Issuer"],
+                                      configuration["Jwt:Audience"],
+                                      claims,
+                                      expires: DateTime.UtcNow.AddMinutes(10),
+                                      signingCredentials: signIn);
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    //return Ok(new
+                    //{
+                    //    StatusCode = 200,
+                    //    Message = "Data Found",
+                    //    Data = new 
+                    //    {
+                    //        Id = Convert.ToInt32(data[0]),
+                    //        FullName = data[1],
+                    //        Email = data[2],
+                    //        Role = data[3]
+                    //    }
+                    //});
                 }
             }
             catch(Exception ex)
