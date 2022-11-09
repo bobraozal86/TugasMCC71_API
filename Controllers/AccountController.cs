@@ -2,6 +2,7 @@ using API.Context;
 using API.Handlers;
 using API.Models;
 using API.Repository.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,10 +52,10 @@ namespace API.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", data[0]),
-                        new Claim("FullName", data[1]),
-                        new Claim("Email",data[2]),
-                        new Claim("Role", data[3])
+                        new Claim("id", data[0]),
+                        new Claim("fullName", data[1]),
+                        new Claim("email",data[2]),
+                        new Claim("role", data[3])
                     };
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
                     var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

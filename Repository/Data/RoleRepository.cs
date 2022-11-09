@@ -5,48 +5,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Repository.Data
 {
-    public class RoleRepository : IRepository<Role, int>
+    public class RoleRepository : GeneralRepository<Role>
     {
         private MyContext myContext;
-        public RoleRepository(MyContext myContext)
+        public RoleRepository(MyContext myContext): base(myContext)
         {
             this.myContext = myContext;
         }
 
-        public int Create(Role Enitity)
-        {
-            myContext.Roles.Add(Enitity);
-            var data = myContext.SaveChanges();
-            return data;
-        }
+        //public int Create(Role Enitity)
+        //{
+        //    myContext.Roles.Add(Enitity);
+        //    var data = myContext.SaveChanges();
+        //    return data;
+        //}
 
-        public int Delete(int id)
-        {
-            var data = myContext.Roles.Find(id);
-            if (data != null)
-            {
-                myContext.Remove(data);
-                var result = myContext.SaveChanges();
-                return result;
-            }
-            return 0;
-        }
+        //public int Delete(int id)
+        //{
+        //    var data = myContext.Roles.Find(id);
+        //    if (data != null)
+        //    {
+        //        myContext.Remove(data);
+        //        var result = myContext.SaveChanges();
+        //        return result;
+        //    }
+        //    return 0;
+        //}
 
-        public IEnumerable<Role> Get()
-        {
-            return myContext.Roles.ToList();
-        }
+        //public IEnumerable<Role> Get()
+        //{
+        //    return myContext.Roles.ToList();
+        //}
 
-        public Role GetById(int id)
-        {
-            return myContext.Roles.Find(id);
-        }
+        //public Role GetById(int id)
+        //{
+        //    return myContext.Roles.Find(id);
+        //}
 
-        public int Update(Role Enitity)
-        {
-            myContext.Entry(Enitity).State = EntityState.Modified;
-            var data = myContext.SaveChanges();
-            return data;
-        }
+        //public int Update(Role Enitity)
+        //{
+        //    myContext.Entry(Enitity).State = EntityState.Modified;
+        //    var data = myContext.SaveChanges();
+        //    return data;
+        //}
     }
 }

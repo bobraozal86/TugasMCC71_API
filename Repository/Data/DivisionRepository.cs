@@ -5,50 +5,49 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Repository.Data
 {
-    public class DivisionRepository : IRepository<Division, int>
+    public class DivisionRepository : GeneralRepository<Division>
     {
         private MyContext myContext;
-        public DivisionRepository(MyContext myContext)
+        public DivisionRepository(MyContext myContext) : base(myContext)
         {
             this.myContext = myContext;
         }
+        ////Get All
+        //public IEnumerable<Division> Get()
+        //{
+        //    return myContext.Divisions.ToList();
+        //}
+        ////Get By Id
+        //public Division GetById(int id)
+        //{
+        //    return myContext.Divisions.Find(id);
+        //}
 
-        //Get All
-        public IEnumerable<Division> Get()
-        {
-            return myContext.Divisions.ToList();
-        }
-        //Get By Id
-        public Division GetById(int id)
-        {
-            return myContext.Divisions.Find(id);
-        }
-
-        //Create
-        public int Create(Division division)
-        {
-            myContext.Divisions.Add(division);
-            var data = myContext.SaveChanges();
-            return data;
-        }
-        //Update
-        public int Update(Division division)
-        {
-            myContext.Entry(division).State = EntityState.Modified;
-            var data = myContext.SaveChanges();
-            return data;
-        }
-        //Delete
-        public int Delete(int id)
-        {
-            var data = myContext.Divisions.Find(id);
-            if (data != null)
-            {
-                myContext.Remove(data);
-                var result = myContext.SaveChanges();
-                return result;
-            }
-            return 0;
-        }
+        ////Create
+        //public int Create(Division division)
+        //{
+        //    myContext.Divisions.Add(division);
+        //    var data = myContext.SaveChanges();
+        //    return data;
+        //}
+        ////Update
+        //public int Update(Division division)
+        //{
+        //    myContext.Entry(division).State = EntityState.Modified;
+        //    var data = myContext.SaveChanges();
+        //    return data;
+        //}
+        ////Delete
+        //public int Delete(int id)
+        //{
+        //    var data = myContext.Divisions.Find(id);
+        //    if (data != null)
+        //    {
+        //        myContext.Remove(data);
+        //        var result = myContext.SaveChanges();
+        //        return result;
+        //    }
+        //    return 0;
+        //}
     }
 }
