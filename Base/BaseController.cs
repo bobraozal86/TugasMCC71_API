@@ -117,7 +117,7 @@ namespace API.Base
                 });
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var data  =  repository.Delete(id);
